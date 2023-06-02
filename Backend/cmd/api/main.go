@@ -41,12 +41,12 @@ func main() {
 
 	flag.IntVar(&cfg.port, "port", 4000, "Server port to listen on")
 	flag.StringVar(&cfg.env, "env", "development", "Application environment (development | production)")
-	flag.StringVar(&cfg.db.dsn, "dsn", "root@127.0.0.1:3306/GO_CMS", "MySQL connection string")
+	flag.StringVar(&cfg.db.dsn, "dsn", "Olumide:Eleven11!@tcp(localhost:3306)/GO_CMS", "MySQL connection string")
 	flag.Parse()
 
 	logger := log.New(os.Stdout, "", log.Ldate|log.Ltime)
 
-	db, err := sql.Open("mysql", cfg.db.dsn)
+	db, err := openDB(cfg)
 	if err != nil {
 		logger.Fatal(err)
 	}

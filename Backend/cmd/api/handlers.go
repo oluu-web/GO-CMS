@@ -69,3 +69,48 @@ func (app *application) editArticle(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
+
+func (app *application) login(w http.ResponseWriter, r *http.Request) {
+
+	var credentials models.LoginCredentials
+	type jsonResp struct {
+		OK      bool   `json:"ok"`
+		Message string `json:"message"`
+		UserID  string `json:"user_id"`
+	}
+
+	err := json.NewDecoder(r.Body).Decode(&credentials)
+	if err != nil {
+		app.errorJSON(w, err)
+		return
+	}
+	ok := jsonResp{
+		OK:      true,
+		Message: "Login successful",
+		UserID:  credentials.Email,
+	}
+
+	bad := jsonResp{
+		OK:      false,
+		Message: "Invalid email or password",
+		UserID:  "null",
+	}
+
+	user, err := app.models.DB.GetUserByEmail(credentials.Email)
+	if err != nil {
+		app.writeJSON(w, http.StatusOK, bad, "response")
+		return
+	}
+	// Check if the provided password matches the stored password
+	if credentials.Password != user.Password {
+		app.writeJSON(w, http.StatusOK, bad, "response")
+		return
+	}
+
+	err = app.writeJSON(w, http.StatusOK, ok, "response")
+	if err != nil {
+		app.errorJSON(w, err)
+		return
+	}
+
+}

@@ -38,7 +38,7 @@ func (a *DBModel) All() ([]*Article, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	query := "SELECT title, content FROM GO_CMS ORDER BY title"
+	query := "SELECT * FROM GO_CMS ORDER BY title"
 
 	rows, err := a.DB.QueryContext(ctx, query)
 	if err != nil {
@@ -53,6 +53,9 @@ func (a *DBModel) All() ([]*Article, error) {
 		err := rows.Scan(
 			&article.ID,
 			&article.Title,
+			&article.Content,
+			&article.CreatedAt,
+			&article.UpdatedAt,
 		)
 		if err != nil {
 			return nil, err
@@ -60,4 +63,24 @@ func (a *DBModel) All() ([]*Article, error) {
 		articles = append(articles, &article)
 	}
 	return articles, nil
+}
+
+func (a *DBModel) GetUserByEmail(email string) (*User, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	const query = "SELECT * FROM users WHERE email = ?"
+	row := a.DB.QueryRowContext(ctx, query, email)
+
+	var user User
+
+	err := row.Scan(
+		&user.ID,
+		&user.Email,
+		&user.Password,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return &user, nil
 }
