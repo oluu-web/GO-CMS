@@ -24,7 +24,7 @@ const Login = () => {
    console.log("Login successful", data)
    setLoginSuccess(true);
    setLoginError(false);
-   navigate('/admin/home')
+   navigate('/admin/articles')
   } else {
    console.log("Login failed", data);
    setLoginSuccess(false);

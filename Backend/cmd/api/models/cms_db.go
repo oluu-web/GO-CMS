@@ -84,3 +84,35 @@ func (a *DBModel) GetUserByEmail(email string) (*User, error) {
 	}
 	return &user, nil
 }
+
+func (a *DBModel) EditArticle(updatedArticle *Article, id int) (*Article, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	query := "UPDATE GO_CMS SET title=?, content=? WHERE ID=?"
+	stmt, err := a.DB.PrepareContext(ctx, query)
+	if err != nil {
+		return nil, err
+	}
+	defer stmt.Close()
+
+	_, err = stmt.ExecContext(ctx, updatedArticle.Title, updatedArticle.Content, id)
+	if err != nil {
+		return nil, err
+	}
+	return a.GetArticleById(id)
+}
+
+func (m *DBModel) DeleteArticle(id int) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	stmt := "DELETE FROM GO_CMS WHERE id = ?"
+
+	_, err := m.DB.ExecContext(ctx, stmt, id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

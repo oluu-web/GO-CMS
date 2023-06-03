@@ -1,17 +1,28 @@
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/footer';
-import Header from './components/Header';
 import Articles from './components/Articles';
+import EditArticle from './components/AdminOneArticle';
 import LoginPage from './components/Login';
 function App() {
   return (
-    <div>
-      {/* <Header /> */}
+    <Router>
       <Navbar />
-      <LoginPage />
+
+
+      <div>
+        <Routes>
+          <Route path="/admin" element={<LoginPage />} />
+          {<Route path="/admin/article/:id" element={<EditArticle />} />}
+          <Route path="/admin/articles" element={<Articles />} />
+          {/* <Route path="/" element={<Home />} /> */}
+
+        </Routes>
+      </div>
       <Footer />
-    </div>
+    </Router>
+
 
 
   );

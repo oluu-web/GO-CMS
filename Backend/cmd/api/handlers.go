@@ -11,6 +11,12 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
+type jsonResp struct {
+	OK      bool   `json:"ok"`
+	Message string `json:"message"`
+	UserID  string `json:"user_id"`
+}
+
 func (app *application) getArticlebyId(w http.ResponseWriter, r *http.Request) {
 	params := httprouter.ParamsFromContext(r.Context())
 
@@ -44,16 +50,34 @@ func (app *application) getAllArticles(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (app *application) editArticle(w http.ResponseWriter, r *http.Request) {
+type ArticlePayload struct {
+	ID      string `json:"id"`
+	Title   string `json:"title"`
+	Content string `json:"content"`
+}
 
-	var article models.Article
-	err := json.NewDecoder(r.Body).Decode(&article)
+func (app *application) editArticle(w http.ResponseWriter, r *http.Request) {
+	var payload ArticlePayload
+
+	err := json.NewDecoder(r.Body).Decode(&payload)
 	if err != nil {
 		app.errorJSON(w, err)
 		return
 	}
 
-	log.Println(article.Title)
+	var article models.Article
+
+	article.ID, _ = strconv.Atoi(payload.ID)
+	article.Title = payload.Title
+	article.Content = payload.Content
+
+	// Pass updatedArticle and id as arguments to EditArticle
+
+	if err != nil {
+		app.errorJSON(w, err)
+		return
+	}
+	log.Println(article.Content)
 
 	type jsonResp struct {
 		OK bool `json:"ok"`
@@ -112,5 +136,30 @@ func (app *application) login(w http.ResponseWriter, r *http.Request) {
 		app.errorJSON(w, err)
 		return
 	}
+}
 
+func (app *application) deleteArticle(w http.ResponseWriter, r *http.Request) {
+	params := httprouter.ParamsFromContext(r.Context())
+
+	id, err := strconv.Atoi(params.ByName("id"))
+	if err != nil {
+		app.errorJSON(w, err)
+		return
+	}
+
+	err = app.models.DB.DeleteArticle(id)
+	if err != nil {
+		app.errorJSON(w, err)
+		return
+	}
+
+	ok := jsonResp{
+		OK: true,
+	}
+
+	err = app.writeJSON(w, http.StatusOK, ok, "response")
+	if err != nil {
+		app.errorJSON(w, err)
+		return
+	}
 }
