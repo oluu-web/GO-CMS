@@ -5,10 +5,11 @@ import Input from "./form-components/Input";
 import TextArea from "./form-components/TextArea";
 
 export default function EditArticle(props) {
-  // const { id } = useParams();
-  // console.log(id);
+  const { id } = useParams();
+  console.log(id)
+
   const [article, setArticle] = useState({
-    id: 1,
+    id: "",
     title: "",
     content: "",
   });
@@ -32,7 +33,7 @@ export default function EditArticle(props) {
   useEffect(() => {
 
 
-    fetch("https://localhost:4000/v1/article/1")
+    fetch("http://localhost:4000/v1/article/" + id)
       .then((response) => {
         if (response.status !== 200) {
           let err = new Error();
@@ -43,7 +44,7 @@ export default function EditArticle(props) {
       })
       .then((json) => {
         setArticle({
-          // id: id,
+          id: json.article.id,
           title: json.article.title,
           content: json.article.content,
         });
@@ -53,7 +54,7 @@ export default function EditArticle(props) {
         setIsLoaded(true);
         setError(error);
       });
-  }, [props?.match?.params?.id]); // Check if props.match and its properties exist
+  }, [id]); // Check if props.match and its properties exist
 
   if (error) {
     return <div>Error: {error.message}</div>;
@@ -93,10 +94,6 @@ export default function EditArticle(props) {
 
           <button className="btn btn-primary">Save</button>
         </form>
-
-        <div className="mt-3">
-          <pre>{JSON.stringify({ article, isLoaded, error }, null, 3)}</pre>
-        </div>
       </Fragment>
     );
   }
