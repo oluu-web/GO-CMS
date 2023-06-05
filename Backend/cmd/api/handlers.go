@@ -4,7 +4,6 @@ import (
 	"backend/cmd/api/models"
 	"encoding/json"
 	"errors"
-	"log"
 	"net/http"
 	"strconv"
 
@@ -28,7 +27,9 @@ func (app *application) getArticlebyId(w http.ResponseWriter, r *http.Request) {
 	}
 
 	article, err := app.models.DB.GetArticleById(id)
-
+	if err != nil {
+		return
+	}
 	err = app.writeJSON(w, http.StatusOK, article, "article")
 	if err != nil {
 		app.errorJSON(w, err)
@@ -51,40 +52,46 @@ func (app *application) getAllArticles(w http.ResponseWriter, r *http.Request) {
 }
 
 type ArticlePayload struct {
-	ID      string `json:"id"`
+	ID      int    `json:"id"`
 	Title   string `json:"title"`
 	Content string `json:"content"`
 }
 
 func (app *application) editArticle(w http.ResponseWriter, r *http.Request) {
-	var payload ArticlePayload
-
 	err := json.NewDecoder(r.Body).Decode(&payload)
+	params := httprouter.ParamsFromContext(r.Context())
+	app.logger.Println(params.ByName("id"))
+	id, err := strconv.Atoi(params.ByName("id"))
+	if err != nil {
+		app.logger.Println(errors.New("invalid id parameter"))
+		app.errorJSON(w, err)
+		return
+	}
+
+	var updatedArticle models.Article
+	err = json.NewDecoder(r.Body).Decode(&updatedArticle)
 	if err != nil {
 		app.errorJSON(w, err)
 		return
 	}
 
-	var article models.Article
-
-	article.ID, _ = strconv.Atoi(payload.ID)
-	article.Title = payload.Title
-	article.Content = payload.Content
-
+	article, err := app.models.DB.EditArticle(&updatedArticle, id)
 	// Pass updatedArticle and id as arguments to EditArticle
 
 	if err != nil {
 		app.errorJSON(w, err)
 		return
 	}
-	log.Println(article.Content)
+	app.logger.Println(article.Title + "\n" + article.Content)
 
 	type jsonResp struct {
-		OK bool `json:"ok"`
+		OK      bool   `json:"ok"`
+		Message string `json:"message"`
 	}
 
 	ok := jsonResp{
-		OK: true,
+		OK:      true,
+		Message: article.Content,
 	}
 
 	err = app.writeJSON(w, http.StatusOK, ok, "response")
@@ -93,6 +100,71 @@ func (app *application) editArticle(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
+
+// func (app *application) editArticle(w http.ResponseWriter, r *http.Request) {
+
+// 	params := httprouter.ParamsFromContext(r.Context())
+// 	app.logger.Println(params.ByName("id"))
+// 	id, err := strconv.Atoi(params.ByName("id"))
+// 	if err != nil {
+// 		app.logger.Println(errors.New("invalid id parameter"))
+// 		app.errorJSON(w, err)
+// 		return
+// 	}
+
+// 	// var payload ArticlePayload
+
+// 	var updatedArticle models.Article
+
+// 	err = json.NewDecoder(r.Body).Decode(&updatedArticle)
+// 	if err != nil {
+// 		app.errorJSON(w, err)
+// 		return
+// 	}
+
+// 	// err := json.NewDecoder(r.Body).Decode(&payload)
+// 	// if err != nil {
+// 	// 	app.errorJSON(w, err)
+// 	// 	return
+// 	// }
+
+// 	// var article models.Article
+
+// 	// article.ID = payload.ID
+// 	// article.Title = payload.Title
+// 	// article.Content = payload.Content
+
+// 	// Pass updatedArticle and id as arguments to EditArticle
+
+// 	article, err := app.models.DB.EditArticle(&updatedArticle, id)
+// 	if err != nil {
+// 		app.errorJSON(w, err)
+// 		return
+// 	}
+
+// 	// article, err := app.models.DB.EditArticle(&payload, payload.ID)
+
+// 	// if err != nil {
+// 	// 	app.errorJSON(w, err)
+// 	// 	return
+// 	// }
+
+// 	app.logger.Panicln(article.Content)
+
+// 	type jsonResp struct {
+// 		OK bool `json:"ok"`
+// 	}
+
+// 	ok := jsonResp{
+// 		OK: true,
+// 	}
+
+// 	err = app.writeJSON(w, http.StatusOK, ok, "response")
+// 	if err != nil {
+// 		app.errorJSON(w, err)
+// 		return
+// 	}
+// }
 
 func (app *application) login(w http.ResponseWriter, r *http.Request) {
 

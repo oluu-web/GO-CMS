@@ -32,3 +32,9 @@ type LoginCredentials struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }
+
+type ArticlePayload struct {
+	ID      int    `json:"id"`
+	Title   string `json:"title"`
+	Content string `json:"content"`
+}

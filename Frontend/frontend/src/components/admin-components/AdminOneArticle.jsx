@@ -1,12 +1,13 @@
 import React, { useState, useEffect, Fragment } from 'react';
+import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import "./AdminOneMovie.css";
-import Input from "./form-components/Input";
-import TextArea from "./form-components/TextArea";
+import Input from "../form-components/Input";
+import TextArea from "../form-components/TextArea";
 
-export default function EditArticle(props) {
+export default function EditArticle() {
   const { id } = useParams();
-  console.log(id)
+  // console.log(id)
 
   const [article, setArticle] = useState({
     id: "",
@@ -16,9 +17,20 @@ export default function EditArticle(props) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState(null);
 
+  const url = 'http://localhost:4000/v1/admin/editarticle/'
+
   const handleSubmit = (evt) => {
-    console.log("Form was submitted");
     evt.preventDefault();
+
+    console.log("Form was submitted");
+
+    axios.put(url + id, article) // Removed unnecessary wrapping of article in an object
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   const handleChange = (evt) => {
@@ -31,22 +43,20 @@ export default function EditArticle(props) {
   };
 
   useEffect(() => {
-
-
-    fetch("http://localhost:4000/v1/article/" + id)
+    axios.get("http://localhost:4000/v1/article/" + id) // Used axios.get() instead of fetch()
       .then((response) => {
         if (response.status !== 200) {
           let err = new Error();
           err.message = "Invalid response code: " + response.status;
           throw err;
         }
-        return response.json();
+        return response.data; // Accessed response data instead of calling response.json()
       })
-      .then((json) => {
+      .then((data) => { // Changed the variable name from json to data
         setArticle({
-          id: json.article.id,
-          title: json.article.title,
-          content: json.article.content,
+          id: data.article.id, // Accessed data.article.id instead of json.article.id
+          title: data.article.title,
+          content: data.article.content,
         });
         setIsLoaded(true);
       })
@@ -54,7 +64,7 @@ export default function EditArticle(props) {
         setIsLoaded(true);
         setError(error);
       });
-  }, [id]); // Check if props.match and its properties exist
+  }, [id]);
 
   if (error) {
     return <div>Error: {error.message}</div>;
@@ -63,7 +73,8 @@ export default function EditArticle(props) {
   } else {
     return (
       <Fragment>
-        <h2>Edit Movie</h2>
+        <h2>Edit Article</h2>
+        <br />
         <hr />
         <form onSubmit={handleSubmit}>
           <input
@@ -86,7 +97,7 @@ export default function EditArticle(props) {
             title={"Content"}
             name={"content"}
             value={article.content}
-            rows={"50"}
+            rows={"10"}
             handleChange={handleChange}
           />
 
@@ -98,3 +109,4 @@ export default function EditArticle(props) {
     );
   }
 }
+
