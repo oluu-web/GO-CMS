@@ -12,6 +12,20 @@ type DBModel struct {
 	DB *sql.DB
 }
 
+func (a *DBModel) CreateArticle(title string, content string) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	query := "INSERT INTO GO_CMS (title, content) VALUES ?,?"
+
+	_, err := a.DB.ExecContext(ctx, query, title, content)
+
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func (a *DBModel) GetArticleById(id int) (*Article, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()

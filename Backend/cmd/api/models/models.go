@@ -33,8 +33,10 @@ type LoginCredentials struct {
 	Password string `json:"password"`
 }
 
-type ArticlePayload struct {
-	ID      int    `json:"id"`
-	Title   string `json:"title"`
-	Content string `json:"content"`
-}
+// type ArticlePayload struct {
+// 	ID        int    `json:"id,omitempty"`
+// 	Title     string `json:"title"`
+// 	Content   string `json:"content"`
+// 	CreatedAt string `json:"created_at"`
+// 	UpdatedAt string `json:"updated_at"`
+// }
