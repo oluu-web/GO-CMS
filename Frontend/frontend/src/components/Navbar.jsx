@@ -9,7 +9,7 @@ const NavbarComponent = () => {
  return (
   <nav className="navbar navbar-light bg-light">
    <a className="navbar-brand" href="/">
-    My Website
+    CU Student Council
    </a>
    <ul className="nav">
     <li className="nav-item">

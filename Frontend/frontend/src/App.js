@@ -5,6 +5,7 @@ import Footer from './components/footer';
 import Articles from './components/admin-components/Articles';
 import EditArticle from './components/admin-components/AdminOneArticle';
 import LoginPage from './components/admin-components/Login';
+import CreateArticle from './components/admin-components/CreateArticle';
 function App() {
   return (
     <Router>
@@ -14,6 +15,7 @@ function App() {
       <div>
         <Routes>
           <Route path="/admin" element={<LoginPage />} />
+          <Route path="/admin/article/new" element={<CreateArticle />} />
           {<Route path="/admin/article/:id" element={<EditArticle />} />}
           <Route path="/admin/articles" element={<Articles />} />
           {/* <Route path="/" element={<Home />} /> */}
