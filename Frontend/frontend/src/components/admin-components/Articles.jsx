@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Fragment } from "react";
 import { Link } from "react-router-dom";
-
+import Button from "react-bootstrap/Button";
 
 export default function Articles() {
   const [articles, setArticles] = useState([]);
@@ -11,9 +11,9 @@ export default function Articles() {
     fetch('http://localhost:4000/v1/articles')
       .then((response) => {
         if (response.status !== 200) {
-          let err = Error;
+          let err = new Error();
           err.message = "Invalid response code: " + response.status;
-          setError(err);
+          throw err;
         }
         return response.json();
       })
@@ -22,22 +22,25 @@ export default function Articles() {
         setIsLoaded(true);
       })
       .catch((error) => {
-        setIsLoaded(true)
+        setIsLoaded(true);
         setError(error);
       });
   }, []);
 
   if (error) {
-    return <div>Error: {error.message}</div>
+    return <div>Error: {error.message}</div>;
   } else if (!isLoaded) {
-    return <p>Lodaing...</p>;
+    return <p>Loading...</p>;
   } else {
-
     return (
       <Fragment>
-        <h2>Articles</h2>
-
-        <table className="table table-compactcable-striped">
+        <div className="d-flex justify-content-between mb-3 align-items-center mx-10">
+          <h2 className="mx-10">Articles</h2>
+          <Link to={`/admin/article/new`}>
+            <Button variant="primary" className="mx-10">Create New</Button>
+          </Link>
+        </div>
+        <table className="table table-bright table-striped table-hover">
           <thead>
             <tr>
               <th>Name</th>
@@ -48,8 +51,9 @@ export default function Articles() {
           <tbody>
             {articles.map((a) => (
               <tr key={a.id}>
-                <Link to={`/admin/article/${a.id}`}>
-                  <td>{a.title}</td> </Link>
+                <td>
+                  <Link to={`/admin/article/${a.id}`}>{a.title}</Link>
+                </td>
                 <td>{a.created_at}</td>
                 <td>{a.updated_at}</td>
               </tr>

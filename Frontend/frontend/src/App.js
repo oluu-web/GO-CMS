@@ -6,6 +6,7 @@ import Articles from './components/admin-components/Articles';
 import EditArticle from './components/admin-components/AdminOneArticle';
 import LoginPage from './components/admin-components/Login';
 import CreateArticle from './components/admin-components/CreateArticle';
+import ViewArticle from './components/user-components/ViewArticle';
 function App() {
   return (
     <Router>
@@ -18,6 +19,9 @@ function App() {
           <Route path="/admin/article/new" element={<CreateArticle />} />
           {<Route path="/admin/article/:id" element={<EditArticle />} />}
           <Route path="/admin/articles" element={<Articles />} />
+
+          <Route path="/article/:id" element={<ViewArticle />} />
+          {/* <Route path='/articles' element={<UserArticles />} */}
           {/* <Route path="/" element={<Home />} /> */}
 
         </Routes>

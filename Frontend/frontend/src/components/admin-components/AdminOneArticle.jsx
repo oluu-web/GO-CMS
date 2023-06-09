@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import axios, { Axios } from 'axios';
+import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import "./AdminOneMovie.css";
 import Input from "../form-components/Input";
