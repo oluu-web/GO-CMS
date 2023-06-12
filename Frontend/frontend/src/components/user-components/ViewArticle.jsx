@@ -51,10 +51,27 @@ export default function ViewArticle() {
   } else {
     return (
       <Fragment>
-        <h1>{article.title}</h1>
-        {result.map((p, i) => (
-          <p key={i}>{p}</p>
-        ))}
+        <div style={{
+          backgroundColor: '#37085C',
+          height: '200px',
+          width: '100%',
+          textAlign: 'center',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginBottom: '10px',
+        }}>
+          <h1 style={{ color: '#FFFFFF' }}>{article.title}</h1>
+        </div>
+        <div className="container">
+          <div className="row justify-content-center">
+            <div className="col-10">
+              {result.map((p, i) => (
+                <p key={i}>{p}</p>
+              ))}
+            </div>
+          </div>
+        </div>
       </Fragment>
     )
   }
