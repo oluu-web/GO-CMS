@@ -28,16 +28,16 @@ export default function Footer() {
   <footer style={{ backgroundColor: '#37085C', height: '200px', width: '100%', marginTop: '10px' }}>
    <div className="container d-flex flex-column align-items-center justify-content-center h-100">
     <div className="footerItems">
-     <a href="https://twitter.com">
+     <a href="https://twitter.com/CUHEBRON" target='_blank'>
       <Twitter style={iconButtonStyle} />
      </a>
-     <a href="https://instagram.com">
+     <a href="https://www.instagram.com/studentcouncil_cu/" target='_blank'>
       <Instagram style={iconButtonStyle} />
      </a>
-     <a href="https://youtube.com">
+     <a href="https://youtube.com/@cuscpress9530" target='_blank'>
       <YouTube style={iconButtonStyle} />
      </a>
-     <a href="https://linkedin.com">
+     <a href="https://www.linkedin.com/company/covenant-university-student-council/" target='_blank'>
       <LinkedIn style={iconButtonStyle} />
      </a>
     </div>

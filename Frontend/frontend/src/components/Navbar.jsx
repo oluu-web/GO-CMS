@@ -1,5 +1,6 @@
 import React from 'react';
 import img from '../assets/sc.png'
+import { Link } from 'react-router-dom';
 import './Navbar.css'
 const Navbar = () => {
  return (
@@ -28,19 +29,17 @@ const Navbar = () => {
     <div className="collapse navbar-collapse" id="navbarNav">
      <ul className="navbar-nav ms-auto navLinks">
       <li className="nav-item ">
-       <a className="nav-link" href="#">
+       <Link to={"/about-us"} className="nav-link">
         About Us
-       </a>
+       </Link>
       </li>
       <li className="nav-item">
-       <a className="nav-link" href="#">
+       <Link to={"/student-life"} className="nav-link">
         Student Life
-       </a>
+       </Link>
       </li>
       <li className="nav-item">
-       <a className="nav-link" href="#">
-        Organisations
-       </a>
+       <Link to={"/organisations"} className='nav-link'>Organisations</Link>
       </li>
      </ul>
     </div>
