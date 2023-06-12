@@ -1,74 +1,52 @@
 .navbar {
- background-color: #ffffff;
- border-color: #dddddd;
- border-width: 1px 0 0;
- box-shadow: 0 1px 0 #cccccc;
- margin-bottom: 10px;
- padding-top: 10px;
- padding-bottom: 10px;
+ height: 100px;
+ width: 100%;
+ background-color: #fff;
+ /* Set your desired background color */
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ padding: 0 20px;
+ box-sizing: border-box;
 }
 
-.navbar-brand {
- font-size: 1.5em;
- font-weight: bold;
+.logoContainer {
+ display: flex;
+ align-items: center;
 }
 
-.navbar-nav {
- float: right;
+.logo {
+ height: 80px;
+ width: 80px;
+ /* Adjust the height as needed */
+ margin-right: 10px;
+ /* Add spacing between logos */
 }
 
-.navbar-nav li {
- margin-left: 10px;
+
+
+.verticalLine {
+ width: 1px;
+ height: 40px;
+ /* Adjust the height to match the logos */
+ background-color: #000;
+ /* Set your desired vertical line color */
+ margin: 0 10px;
+ /* Add spacing around the vertical line */
 }
 
-.navbar-nav li a {
- color: #555555;
- font-size: 1em;
- font-weight: normal;
+.navLinks {
+ display: flex;
 }
 
-.navbar-nav li a:hover {
- color: #000000;
+.navLinks a {
+ color: #37085C;
  text-decoration: none;
+ margin-right: 20px;
+ /* Add spacing between navigation links */
 }
 
-.navbar-toggler {
- border-color: #dddddd;
- border-width: 1px 0 0;
- float: right;
- margin-top: 8px;
- padding: 0 10px;
- cursor: pointer;
-}
-
-.navbar-toggler:hover {
- background-color: #cccccc;
-}
-
-.navbar-toggler-icon {
- border-color: #dddddd;
- border-width: 2px 2px 0 0;
- display: block;
- height: 20px;
- margin-top: 1px;
- width: 20px;
-}
-
-.navbar-toggler-icon:hover {
- background-color: #cccccc;
-}
-
-@media (max-width: 767px) {
- .navbar-nav {
-  float: none;
-  margin-top: 10px;
- }
-
- .navbar-nav li {
-  display: block;
- }
-
- .navbar-nav li a {
-  padding: 10px 15px;
- }
+.navLinks a:hover {
+ color: #37085C;
+ text-decoration: underline;
 }

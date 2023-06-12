@@ -7,6 +7,9 @@ import EditArticle from './components/admin-components/AdminOneArticle';
 import LoginPage from './components/admin-components/Login';
 import CreateArticle from './components/admin-components/CreateArticle';
 import ViewArticle from './components/user-components/ViewArticle';
+import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 function App() {
   return (
     <Router>

@@ -50,6 +50,7 @@ export default function EditArticle() {
     axios.put(url_edit + id, article)
       .then(response => {
         console.log(response);
+        navigate('/admin/articles')
       })
       .catch(error => {
         console.log(error);
