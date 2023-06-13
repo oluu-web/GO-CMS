@@ -1,7 +1,7 @@
 import React, { useEffect, Fragment, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import Navbar from '../Navbar';
+
 
 export default function ViewArticle() {
   const { id } = useParams();

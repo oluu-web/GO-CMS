@@ -44,8 +44,13 @@ export default function Footer() {
 
     <div className="contactInfo mt-2" style={{ color: 'white' }}>
      <div className="d-flex flex-column align-items-center">
-      <div style={infoStyle}><Phone /> +234 903 355 0046</div>
-      <div style={infoStyle}><Mail />info@covenantuniversity.edu.ng</div>
+      <div style={infoStyle}><Phone />
+       <a href='tel:+234 903 355 0046' style={{ color: '#ffffff', textDecoration: 'none', }}>+234 903 355 0046</a>
+      </div>
+      <div style={infoStyle}><Mail />
+       <a href='mailto:info@covenantuniversity.edu.ng' style={{ color: '#ffffff', textDecoration: 'none', }}>
+        info@covenantuniversity.edu.ng
+       </a></div>
      </div>
     </div>
    </div>

@@ -130,3 +130,33 @@ func (m *DBModel) DeleteArticle(id int) error {
 
 	return nil
 }
+
+func (a *DBModel) Council() ([]*Council, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	query := "SELECT * FROM Council ORDER BY id"
+
+	rows, err := a.DB.QueryContext(ctx, query)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var members []*Council
+
+	for rows.Next() {
+		var member Council
+		err := rows.Scan(
+			&member.ID,
+			&member.Name,
+			&member.Post,
+			&member.URL,
+		)
+		if err != nil {
+			return nil, err
+		}
+		members = append(members, &member)
+	}
+	return members, nil
+}

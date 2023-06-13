@@ -22,6 +22,13 @@ type Article struct {
 	UpdatedAt string `json:"updated_at"`
 }
 
+type Council struct {
+	ID   int    `json:"id"`
+	Name string `json:"name"`
+	Post string `json:"post"`
+	URL  string `json:"url"`
+}
+
 type User struct {
 	ID       int    `json:"id"`
 	Email    string `json:"email"`

@@ -206,3 +206,16 @@ func (app *application) deleteArticle(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
+func (app *application) getCouncil(w http.ResponseWriter, r *http.Request) {
+	council, err := app.models.DB.Council()
+	if err != nil {
+		app.errorJSON(w, err)
+		return
+	}
+
+	err = app.writeJSON(w, http.StatusOK, council, "council")
+	if err != nil {
+		app.errorJSON(w, err)
+		return
+	}
+}

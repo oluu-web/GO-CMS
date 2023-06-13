@@ -7,6 +7,8 @@ import EditArticle from './components/admin-components/AdminOneArticle';
 import LoginPage from './components/admin-components/Login';
 import CreateArticle from './components/admin-components/CreateArticle';
 import ViewArticle from './components/user-components/ViewArticle';
+import UserArticles from './components/user-components/UserArticles';
+import About from './components/about'
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -24,8 +26,9 @@ function App() {
           <Route path="/admin/articles" element={<Articles />} />
 
           <Route path="/article/:id" element={<ViewArticle />} />
-          {/* <Route path='/articles' element={<UserArticles />} */}
+          <Route path='/articles' element={<UserArticles />} />
           {/* <Route path="/" element={<Home />} /> */}
+          <Route path="/about-us" element={<About />} />
 
         </Routes>
       </div>

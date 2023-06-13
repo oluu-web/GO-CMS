@@ -22,5 +22,7 @@ func (app *application) routes() http.Handler {
 
 	router.HandlerFunc(http.MethodPost, "/v1/login", app.login)
 
+	router.HandlerFunc(http.MethodGet, "/v1/council", app.getCouncil)
+
 	return app.enableCORS(router)
 }
